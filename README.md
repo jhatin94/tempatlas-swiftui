@@ -1,5 +1,5 @@
 # TempAtlas in SwiftUI
-Apple Maps combined with the OpenWeather API written in SwiftUI.
+TemperatureAtlas uses Apple Maps combined with the OpenWeather API written in SwiftUI.
 
 This project was built to explore SwiftUI beyond the WWDC talks and current documentation 
 
