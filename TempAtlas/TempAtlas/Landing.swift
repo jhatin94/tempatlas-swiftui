@@ -24,23 +24,26 @@ struct Landing : View {
                 .environmentObject(state)
             Divider()
             HStack {
-                Button(action: {
-                    self.showModal = true
-                }) {
-                    Text("See All Favorites")
+                Button("See All Favorites") {
+                   self.showModal = true
                 }
                 Spacer()
             }
             .padding()
-        }
-        .presentation(
-            showModal ? Modal(
-                ForecastList(showModal: $showModal)
-                    .environmentObject(state),
-                onDismiss: {
-                    self.showModal = false
-                })
-            : nil)
+        }.sheet(isPresented: $showModal, content: {
+            Modal(displayModal: self.$showModal)
+                .environmentObject(self.state)
+        })
+    }
+}
+
+struct Modal : View {
+    @EnvironmentObject var currentWeather: WeatherState
+    @Binding var displayModal: Bool
+    
+    var body: some View {
+        ForecastList(showModal: $displayModal)
+            .environmentObject(self.currentWeather)
     }
 }
 

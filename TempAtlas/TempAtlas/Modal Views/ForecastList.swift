@@ -29,7 +29,7 @@ struct ForecastList : View {
                         WeatherAPI.shared.getWeatherBy(coordinates: favorite.coordinate.toCoreLocationCoordinate()) { success, responseData in
                             guard success, let data = responseData,
                             let weatherResponse = try? JSONDecoder().decode(WeatherResponse.self, from: data) else { return }
-                            
+
                             DispatchQueue.main.async {
                                 self.state.current = weatherResponse
                                 self.state.coordinates = CLLocationCoordinate2D(
@@ -44,8 +44,8 @@ struct ForecastList : View {
                     }
                 }
                 
-                }.listStyle(.grouped)
-            }
+            }.listStyle(GroupedListStyle())
+        }
     }
 }
 

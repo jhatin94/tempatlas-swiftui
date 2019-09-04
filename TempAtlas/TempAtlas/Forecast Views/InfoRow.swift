@@ -16,10 +16,8 @@ struct InfoRow : View {
         HStack {
             Text(label)
                 .font(.headline)
-                .lineLimit(nil)
             
             Text(value)
-                .lineLimit(nil)
             Spacer()
         }
     }

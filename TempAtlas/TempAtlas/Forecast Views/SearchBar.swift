@@ -34,9 +34,9 @@ struct SearchBar : UIViewRepresentable {
         @Binding var coordinates: CLLocationCoordinate2D
         
         init(_ bar: SearchBar, currentState: Binding<WeatherResponse?>, coordinates: Binding<CLLocationCoordinate2D>) {
-            searchBar = bar
-            $state = currentState
-            $coordinates = coordinates
+            searchBar = bar 
+            _state = currentState
+            _coordinates = coordinates
         }
         
         func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

@@ -63,15 +63,14 @@ struct MapView : UIViewRepresentable {
         
         init(_ map: MapView, currentCoord: Binding<CLLocationCoordinate2D>, currentState: Binding<WeatherResponse?>) {
             mapView = map
-            $selectedCoord = currentCoord
-            $displayedState = currentState
+            _selectedCoord = currentCoord
+            _displayedState = currentState
         }
         
         // MARK: Delegate functions
         
         func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-            guard let location = locations.last,
-                !WeatherState.areCoordinatesEqual(coordA: selectedCoord, coordB: location.coordinate)
+            guard let location = locations.last, !selectedCoord.areCoordinatesEqualTo(otherCoord: location.coordinate)
                 else { return }
             selectedCoord = location.coordinate
             getForecast()

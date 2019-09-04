@@ -61,6 +61,11 @@ public struct Coordinate: Codable {
     func toCoreLocationCoordinate() -> CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
+    
+    // comparator for Coordinate (Codable) objects
+    func areCoordinatesEqualToOther(coord: Coordinate) -> Bool {
+        return latitude == coord.latitude && longitude == coord.longitude
+    }
 }
 
 public struct Wind: Codable {
@@ -78,5 +83,10 @@ public struct Clouds: Codable {
 extension CLLocationCoordinate2D { // Quick extension to convert to the Codable struct
     func toCodable() -> Coordinate {
         return Coordinate(latitude: latitude, longitude: longitude)
+    }
+    
+    // comparator for CLLocationCoordinate2D objects
+    func areCoordinatesEqualTo(otherCoord: CLLocationCoordinate2D) -> Bool {
+        return latitude == otherCoord.latitude && longitude == otherCoord.longitude
     }
 }

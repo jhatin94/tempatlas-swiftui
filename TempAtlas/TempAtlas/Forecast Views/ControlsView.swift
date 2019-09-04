@@ -16,10 +16,10 @@ struct ControlsView : View {
         HStack {
             Text("Units:")
             Spacer()
-            SegmentedControl(selection: $units) {
+            Picker(selection: $units, label: Text("Units:")) {
                 Text("Imperial").tag(WeatherAPI.Units.imperial)
                 Text("Metric").tag(WeatherAPI.Units.metric)
-            }
+            }.pickerStyle(SegmentedPickerStyle())
         }
         .padding(.leading).padding(.trailing)
     }

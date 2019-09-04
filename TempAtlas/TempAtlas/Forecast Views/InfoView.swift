@@ -16,8 +16,7 @@ struct InfoView : View {
             if state.hasInfo {
                 Text("Forecast")
                     .font(.title)
-                    .bold()
-                    .lineLimit(nil)
+                    .bold()                    
                 InfoRow(label: "Location:", value: state.current!.name)
                 InfoRow(label: "Conditions:", value: state.current!.weather[0].main + ", \(state.current!.data.temp)°")
                 InfoRow(label: "High:", value: "\(state.current!.data.high)°")
@@ -26,14 +25,12 @@ struct InfoView : View {
                 InfoRow(label: "Wind Speed:", value: "\(state.current!.wind.speed)" + (state.units == WeatherAPI.Units.imperial ? "mph" : "m/s"))
                 InfoRow(label: "Cloud Cover:", value: "\(state.current!.clouds.coverage)%")
             
-                Button(action: {
+                Button(self.state.isFavorite() ? "Remove from Favorites" : "Save to Favorites") {
                     if self.state.isFavorite() {
                         self.state.removeFavorite()
                     } else {
                         self.state.addFavorite()
                     }
-                }) {
-                    Text(self.state.isFavorite() ? "Remove from Favorites" : "Save to Favorites")
                 }
                 .padding(.top, 1)
             }

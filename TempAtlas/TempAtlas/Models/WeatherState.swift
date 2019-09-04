@@ -11,13 +11,13 @@ import CoreLocation
 import SwiftUI
 import Combine
 
-final class WeatherState: BindableObject {
+final class WeatherState: ObservableObject {
     let didChange = PassthroughSubject<WeatherState, Never>()
     static let favoritesKey = "FORECAST_FAVORITES" // static key for UserDefaults
     
     // MARK: Observed Variables
     
-    var units = WeatherAPI.Units.imperial {
+    @Published var units = WeatherAPI.Units.imperial {
         didSet {
             didChange.send(self)
             WeatherAPI.shared.units = self.units // update units in API Manager
@@ -44,7 +44,7 @@ final class WeatherState: BindableObject {
         }
     }
     
-    var current: WeatherResponse? = nil {
+    @Published var current: WeatherResponse? = nil {
         didSet {
             didChange.send(self)
             if !hasInfo {
@@ -53,19 +53,19 @@ final class WeatherState: BindableObject {
         }
     }
     
-    var coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 43.08291577840266, longitude: -77.6772236820356) {
+    @Published var coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 43.08291577840266, longitude: -77.6772236820356) {
         didSet {
             didChange.send(self)
         }
     }
     
-    var hasInfo: Bool = false {
+    @Published var hasInfo: Bool = false {
         didSet {
             didChange.send(self)
         }
     }
     
-    var favorites: [Favorite] = WeatherState.loadFavorites() {
+    @Published var favorites: [Favorite] = WeatherState.loadFavorites() {
         didSet {
             didChange.send(self)
             saveFavorites()
@@ -81,7 +81,7 @@ final class WeatherState: BindableObject {
         }
         
         return favorites.contains {
-            WeatherState.areCoordinatesEqual(coordA: $0.coordinate, coordB: favorite.coordinate)
+            $0.coordinate.areCoordinatesEqualToOther(coord: favorite.coordinate)
         }
     }
     
@@ -101,7 +101,7 @@ final class WeatherState: BindableObject {
         }
         
         let favIndex = favorites.firstIndex {
-            WeatherState.areCoordinatesEqual(coordA: $0.coordinate, coordB: favorite.coordinate)
+            $0.coordinate.areCoordinatesEqualToOther(coord: favorite.coordinate)
         }
         
         guard let index = favIndex, index > -1 else { return }
@@ -139,16 +139,6 @@ final class WeatherState: BindableObject {
         }
         
         return decodedFavs
-    }
-    
-    // comparator for CLLocationCoordinate2D objects
-    static func areCoordinatesEqual(coordA: CLLocationCoordinate2D, coordB: CLLocationCoordinate2D) -> Bool {
-        return coordA.latitude == coordB.latitude && coordA.longitude == coordB.longitude
-    }
-    
-    // comparator for Coordinate (Codable) objects
-    static func areCoordinatesEqual(coordA: Coordinate, coordB: Coordinate) -> Bool {
-        return coordA.latitude == coordB.latitude && coordA.longitude == coordB.longitude
     }
 }
 
