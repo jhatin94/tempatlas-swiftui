@@ -20,7 +20,7 @@ The app allows the user to view live weather information by either searching for
 ***
 ## Models
 
-The data model for the app is `WeatherState`.  This `BindableObject` is used in most views in the app and contains information like the current active units, the current JSON response from the API, the current focused coordinates, the active Favorites, and a boolean flag for when the JSON response isn't `nil`. The model has some helper functions to handle adding/removing favorites from the local collection as well as saving and loading this information to/from `UserDefaults`. The file contains the `Favorite` struct to contain the name and coordinates of a favorite location. 
+The data model for the app is `WeatherState`.  This `ObservedObject` is used in most views in the app and contains information like the current active units, the current JSON response from the API, the current focused coordinates, the active Favorites, and a boolean flag for when the JSON response isn't `nil`. The model has some helper functions to handle adding/removing favorites from the local collection as well as saving and loading this information to/from `UserDefaults`. The file contains the `Favorite` struct to contain the name and coordinates of a favorite location. 
 
 ## API
 
