@@ -12,14 +12,12 @@ import SwiftUI
 import Combine
 
 final class WeatherState: ObservableObject {
-    let didChange = PassthroughSubject<WeatherState, Never>()
     static let favoritesKey = "FORECAST_FAVORITES" // static key for UserDefaults
     
     // MARK: Observed Variables
     
     @Published var units = WeatherAPI.Units.imperial {
         didSet {
-            didChange.send(self)
             WeatherAPI.shared.units = self.units // update units in API Manager
             
             // update the current state with new units if a name was searched for
@@ -46,28 +44,18 @@ final class WeatherState: ObservableObject {
     
     @Published var current: WeatherResponse? = nil {
         didSet {
-            didChange.send(self)
             if !hasInfo {
                 hasInfo = true
             }
         }
     }
     
-    @Published var coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 43.08291577840266, longitude: -77.6772236820356) {
-        didSet {
-            didChange.send(self)
-        }
-    }
+    @Published var coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 43.08291577840266, longitude: -77.6772236820356)
     
-    @Published var hasInfo: Bool = false {
-        didSet {
-            didChange.send(self)
-        }
-    }
+    @Published var hasInfo: Bool = false
     
     @Published var favorites: [Favorite] = WeatherState.loadFavorites() {
         didSet {
-            didChange.send(self)
             saveFavorites()
         }
     }
