@@ -20,7 +20,7 @@ final class WeatherAPI {
     public var units: Units = .imperial
     
     private let baseApiUrl = "https://api.openweathermap.org/data/2.5/weather?"
-    private let appId = "&APPID=f286e2990fed460a17964af2d80b3c60"
+    private let appId = "&APPID=YOUR_APP_ID_HERE"
     
     private init() {}
     
